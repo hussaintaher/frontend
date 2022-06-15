@@ -1,9 +1,11 @@
 import Link from 'next/link'
 import { signIn, signOut, useSession } from 'next-auth/react'
+import {getSession} from 'next-auth/react'
 
 function Navbar() {
   const {data: session, status} = useSession()
-
+  
+  console.log(session)
   return (
     <nav className='header'>
       <h1 className='logo'>
@@ -13,6 +15,11 @@ function Navbar() {
         <li>
           <Link href='/'>
             <a>Home</a>
+          </Link>
+        </li>
+        <li>
+          <Link href='/info'>
+            <a>INFO</a>
           </Link>
         </li>
         <li>

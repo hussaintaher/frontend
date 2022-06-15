@@ -13,7 +13,6 @@ function MyApp({ Component, pageProps: {session, ...pageProps} }) {
         <Component {...pageProps} />    
       </Provider>
     </SessionProvider>
-    
   )
 }
 

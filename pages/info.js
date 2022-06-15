@@ -1,11 +1,13 @@
 import React from 'react'
 import {useDispatch, useSelector } from 'react-redux'
 import {increment, decrement, selectNumber} from '../slices/counterSlice'
+import {useSession} from 'next-auth/react'
 
 const Info = () => {
   const dispatch = useDispatch()
   const val = useSelector(selectNumber)
-
+  const {data: session, status} = useSession()
+  console.log(session ,status) 
   return (
     <div>
       <button onClick={() => dispatch(increment())}>increment</button>
