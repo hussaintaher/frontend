@@ -1,14 +1,19 @@
-import Header from '../components/header'
+import Navbar from '../components/Navbar'
+import { SessionProvider } from "next-auth/react"
 import '../styles/globals.css'
+import '../styles/Navbar.css'
 import {store} from '../store';
 import {Provider} from 'react-redux';
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps: {session, ...pageProps} }) {
   return (
-    <Provider store={store}>
-      <Header />
-      <Component {...pageProps} />    
-    </Provider>
+    <SessionProvider session={session}>
+      <Provider store={store}>
+        <Navbar />
+        <Component {...pageProps} />    
+      </Provider>
+    </SessionProvider>
+    
   )
 }
 
