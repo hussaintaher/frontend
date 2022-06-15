@@ -4,14 +4,19 @@ import { useState } from 'react'
 import { setCookie, parseCookies } from 'nookies'
 import Router from 'next/router'
 import nookies from 'nookies'
+import {useDispatch, useSelector} from 'react-redux'
+import {selectUserEmail, setSignOutState, setUserLoginDetails} from '../slices/userSlice'
 
 function Login({loginResponse}) {
-    const [username, setUsername] = useState('') // or email
+    const [email, setEmail] = useState('') // or email
     const [password, setPassword] = useState('')
+
+    const dispatch = useDispatch()
+    const userEmail = useSelector(selectUserEmail)
 
     async function handleLogin() {
         const loginInfo = {
-            identifier: username,
+            identifier: email,
             password: password
         }
     
@@ -26,12 +31,9 @@ function Login({loginResponse}) {
 
         const loginResponse = await login.json();
 
-        nookies.set(null, 'jwt', loginResponse.jwt, {
-            maxAge: 30 * 24 * 60 * 60,
-            path: '/',
-        })
+        console.log(loginResponse)
         
-
+        dispatch(setUserLoginDetails({...loginInfo, jwt: loginResponse.jwt}))
     }
 
 	return (
@@ -42,9 +44,10 @@ function Login({loginResponse}) {
                         You need to login to access this page
                     </div>
                     <form>
-                        <input type="email" onChange={e => setUsername(e.target.value) } value={username} /><br />
+                        <input type="email" onChange={e => setEmail(e.target.value) } value={email} /><br />
                         <input type="password" onChange={e => setPassword(e.target.value) } value={password} /><br />
                         <button type="button" onClick={() => handleLogin() }>Login</button>
+                        <button type="button" onClick={() => dispatch(setSignOutState()) }>Sign out</button>
                     </form>
                 </div>
             </LoginStyled>
