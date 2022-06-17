@@ -1,5 +1,5 @@
 import Navbar from '../components/Navbar'
-import { SessionProvider } from "next-auth/react"
+import { getSession, SessionProvider } from "next-auth/react"
 import '../styles/globals.css'
 import '../styles/Navbar.css'
 import {store} from '../store';
@@ -16,4 +16,12 @@ function MyApp({ Component, pageProps: {session, ...pageProps} }) {
   )
 }
 
+export async function getServerSideProps(ctx) {
+  const session = await getSession(ctx)
+  return {
+    props: {
+      session // protecting HTML elements from flickers but you have to create animation in navbar
+    }
+  }
+}
 export default MyApp
